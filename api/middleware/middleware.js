@@ -5,6 +5,12 @@ function logger(req, res, next) {
   // DO YOUR MAGIC
 }
 
+function handleError(err, req, res, next) {
+  res.status(err.status || 500).json({
+    message: err.message,
+  });
+}
+
 async function validateUserId(req, res, next) {
   try {
     const { id } = req.params;
@@ -29,5 +35,6 @@ function validatePost(req, res, next) {
 
 // do not forget to expose these functions to other modules
 module.exports = {
+  handleError,
   validateUserId,
 };
