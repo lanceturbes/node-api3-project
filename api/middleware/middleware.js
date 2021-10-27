@@ -39,7 +39,16 @@ function validateUser(req, res, next) {
 }
 
 function validatePost(req, res, next) {
-  // DO YOUR MAGIC
+  try {
+    const { text } = req.body;
+    if (text) {
+      next();
+    } else {
+      next({ status: 400, message: "missing required text field" });
+    }
+  } catch (err) {
+    next(err);
+  }
 }
 
 // do not forget to expose these functions to other modules
@@ -47,4 +56,5 @@ module.exports = {
   handleError,
   validateUserId,
   validateUser,
+  validatePost,
 };
