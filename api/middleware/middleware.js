@@ -1,11 +1,16 @@
-const Post = require("./../posts/posts-model");
 const User = require("./../users/users-model");
 
 function logger(req, res, next) {
-  // DO YOUR MAGIC
+  const time = new Date().toISOString();
+  console.log(`
+    METHOD: ${req.method}
+    URL:    ${req.originalUrl}
+    TIME:   ${time}
+  `);
+  next();
 }
 
-function handleError(err, req, res, next) {
+function handleError(err, req, res) {
   res.status(err.status || 500).json({
     message: err.message,
   });
@@ -53,6 +58,7 @@ function validatePost(req, res, next) {
 
 // do not forget to expose these functions to other modules
 module.exports = {
+  logger,
   handleError,
   validateUserId,
   validateUser,

@@ -1,12 +1,14 @@
 // Imports
 const express = require("express");
 const usersRouter = require("./users/users-router");
+const { logger } = require("./middleware/middleware");
 
 // Declare server
 const server = express();
 
 // Use middleware
 server.use(express.json());
+server.use(logger);
 server.use("/api/users", usersRouter);
 
 // Handle requests

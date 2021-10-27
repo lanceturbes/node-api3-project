@@ -78,9 +78,6 @@ router.post(
   validateUserId,
   validatePost,
   async (req, res, next) => {
-    // RETURN THE NEWLY CREATED USER POST
-    // this needs a middleware to verify user id
-    // and another middleware to check that the request body is valid
     try {
       const { id } = req.params;
       const { text } = req.body;
