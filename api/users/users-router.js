@@ -3,7 +3,11 @@ const User = require("./users-model");
 const Post = require("./../posts/posts-model");
 
 // The middleware functions also need to be required
-const { handleError, validateUserId } = require("./../middleware/middleware");
+const {
+  handleError,
+  validateUserId,
+  validateUser,
+} = require("./../middleware/middleware");
 
 const router = express.Router();
 
@@ -26,9 +30,14 @@ router.get("/:id", validateUserId, async (req, res, next) => {
   }
 });
 
-router.post("/", (req, res) => {
-  // RETURN THE NEWLY CREATED USER OBJECT
-  // this needs a middleware to check that the request body is valid
+router.post("/", validateUser, async (req, res, next) => {
+  try {
+    const { name } = req.body;
+    const newUser = await User.insert({ name });
+    res.status(201).json(newUser);
+  } catch (err) {
+    next(err);
+  }
 });
 
 router.put("/:id", (req, res) => {
