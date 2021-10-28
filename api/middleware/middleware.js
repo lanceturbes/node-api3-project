@@ -1,5 +1,11 @@
 const User = require("./../users/users-model");
 
+function handleError(err, req, res, next) {
+  res.status(err.status || 500).json({
+    message: err.message,
+  });
+}
+
 function logger(req, res, next) {
   const time = new Date().toISOString();
   console.log(`
@@ -10,12 +16,6 @@ function logger(req, res, next) {
   next();
 }
 
-function handleError(err, req, res) {
-  res.status(err.status || 500).json({
-    message: err.message,
-  });
-}
-
 async function validateUserId(req, res, next) {
   try {
     const { id } = req.params;
@@ -23,7 +23,7 @@ async function validateUserId(req, res, next) {
     if (targetUser) {
       next();
     } else {
-      next({ status: 404, message: `user with id ${id} not found!` });
+      next({ status: 404, message: "user not found" });
     }
   } catch (err) {
     next(err);
